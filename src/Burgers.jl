@@ -46,7 +46,7 @@ function solve(x, dx, u0, times, dt)
 end
 
 function run(; A=1.0, theta=pi / 2.0, T=0.4, N=501)
-x, dx, u0, times, dt= compute_init(A, theta, T, N)
+x, dx, u0, times, dt= compute_init(A=A, theta=theta, T=T, N=N)
 u = solve(x, dx, u0, times, dt)
 return x, u
 end
@@ -57,7 +57,7 @@ function plot_init_and_final_solutions(x, u0, u, T)
 end
 
 function runAndPlot(A=1.0, theta=pi / 2.0, T=0.4, N=501)
-x, dx, u0, times, dt= compute_init(A, theta, T, N)
+x, dx, u0, times, dt= compute_init(A=A, theta=theta, T=T, N=N)
 u = solve(x, dx, u0, times, dt)
 plot_init_and_final_solutions(x, u0, u, T)
 end
