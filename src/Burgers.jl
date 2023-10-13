@@ -5,11 +5,11 @@ using Plots
 
 export compute_init, solve, run, plot_init_and_final_solutions, runAndPlot
 
-function compute_init(a, theta, T, N=101)
+function compute_init(; A=1.0, theta=np.pi / 2, T=0.4, N=101)
 x = range(0, 1.0, length=N)
 dx = 1.0 / N
 
-u0 = a * sin.(2 * pi * x .+ theta)
+u0 = A * sin.(2 * pi * x .+ theta)
 
 cfl = 0.5
 
@@ -19,7 +19,7 @@ times = 0:dt:T
 return x, dx, u0, times, dt
 end
 
-function solve(x, dx, u0, dt, times)
+function solve(x, dx, u0, times, dt)
     u = u0
     n = length(u0)
     u_new = similar(u)
@@ -45,9 +45,9 @@ function solve(x, dx, u0, dt, times)
     return u
 end
 
-function run(A=1.0, theta=pi / 2.0, T=0.4, N=501)
+function run(; A=1.0, theta=pi / 2.0, T=0.4, N=501)
 x, dx, u0, times, dt= compute_init(A, theta, T, N)
-u = solve(x, dx, u0, dt, times)
+u = solve(x, dx, u0, times, dt)
 return x, u
 end
 
@@ -58,7 +58,7 @@ end
 
 function runAndPlot(A=1.0, theta=pi / 2.0, T=0.4, N=501)
 x, dx, u0, times, dt= compute_init(A, theta, T, N)
-u = solve(x, dx, u0, dt, times)
+u = solve(x, dx, u0, times, dt)
 plot_init_and_final_solutions(x, u0, u, T)
 end
 
