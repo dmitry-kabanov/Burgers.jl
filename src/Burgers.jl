@@ -1,6 +1,9 @@
-using Plots
-using LaTeXStrings
+module Burgers
 
+using LaTeXStrings
+using Plots
+
+export compute_init, solve, run, plot_init_and_final_solutions, runAndPlot
 
 function compute_init(a, theta, T, N=101)
 x = range(0, 1.0, length=N)
@@ -13,7 +16,7 @@ cfl = 0.5
 dt = dx * cfl
 times = 0:dt:T
 
-return x, dx, u0, dt, times
+return x, dx, u0, times, dt
 end
 
 function solve(x, dx, u0, dt, times)
@@ -42,14 +45,21 @@ function solve(x, dx, u0, dt, times)
     return u
 end
 
-A = 1.0
-theta = pi / 2.0
-T = 0.4
-N = 501
-
-x, dx, u0, dt, times = compute_init(A, theta, T, N)
-
+function run(A=1.0, theta=pi / 2.0, T=0.4, N=501)
+x, dx, u0, times, dt= compute_init(A, theta, T, N)
 u = solve(x, dx, u0, dt, times)
+return x, u
+end
 
-plot(x, u0, label=L"t = 0", linestyle=:dash)
-plot!(x, u, label=L"t = %$T")
+function plot_init_and_final_solutions(x, u0, u, T)
+    plot(x, u0, label=L"t = 0", linestyle=:dash, linewidth=3)
+    plot!(x, u, label=L"t = %$T", linewidth=3)
+end
+
+function runAndPlot(A=1.0, theta=pi / 2.0, T=0.4, N=501)
+x, dx, u0, times, dt= compute_init(A, theta, T, N)
+u = solve(x, dx, u0, dt, times)
+plot_init_and_final_solutions(x, u0, u, T)
+end
+
+end # module Burgers
