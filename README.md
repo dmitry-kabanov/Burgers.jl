@@ -1,6 +1,7 @@
 # Burgers.jl
 
 Julia package for solving Burgers' equation:
+
 $$
 \frac{\partial u}{\partial t}+ \frac{\partial}{\partial x}\left( \frac{u^2}{2} \right) = 0.
 $$
